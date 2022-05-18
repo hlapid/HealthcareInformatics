@@ -90,6 +90,7 @@ class Insert2DB():
             command+=f"'{self.df.iloc[self.index,-1]}')"
         print(command)
         self.cursor.execute(command)
+        self.con.commit()
         return
     def controlButton(self):
         # insert dataframe to sql table
