@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import Calendar, DateEntry
+import sys
 
 class Frame1(ttk.Frame):
     def __init__(self,app):
@@ -121,8 +122,8 @@ class Frame3(ttk.Frame):
         self.__create_widgets(app)
         return         
     def __create_widgets(self,app):
-        self.rowconfigure([9], weight=1, minsize=10)
-        self.columnconfigure([5], weight=1, minsize=20)
+        self.rowconfigure([8], weight=1, minsize=10)
+        self.columnconfigure([6], weight=1, minsize=20)
         self.labelBeginDate = tk.Label(master=self,
                           font=('Times New Roman',14),
                           text="begine date",
@@ -162,24 +163,24 @@ class Frame3(ttk.Frame):
         self.resetFrameButton.grid(column=4,row=2, padx=1, pady=1)
 
     def showTable(self,app):
-        self.data = app.queries.queryPatientDataByDate(str(self.beginDate.get_date()),str(self.endDate.get_date()))
+        app.queries.queryPatientDataByDate(str(self.beginDate.get_date()),str(self.endDate.get_date()))
+        # app.queries.df_PatientAdmissions
         self.colwidths = [15,10,10,15,15,20]
-        import sys
         try:
             for j in range(len(self.colwidths)):
                     self.e = tk.Label(master = self, fg='black',
-                               text=self.data.columns[j],
+                               text=app.queries.df_PatientAdmissions.columns[j],
                                font=('Times New Roman',14,'bold'),
                                width=self.colwidths[j],
                                height=2)
                     self.e.grid(row=3, column=j)
             for i in range(5):
-                for j in range(self.data.shape[1]):
+                for j in range(app.queries.df_PatientAdmissions.shape[1]):
                     self.e = tk.Label(self, fg='black',
-                               text=self.data.iloc[i,j],
+                               text=app.queries.df_PatientAdmissions.iloc[i,j],
                                font=('Times New Roman',12),
                                width=self.colwidths[j],
-                               height=2)
+                               height=1)
                   
                     self.e.grid(row=i+4, column=j)
         except BaseException as err:
